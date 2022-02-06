@@ -2,6 +2,7 @@ package com.nico;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
@@ -38,13 +39,15 @@ public class Anicloud extends Site
     }
 
 
-    public void handleLink(String url)
+    public void handleLink(String url) 
     {
         
         //System.out.println(this.url.substring(this.url.lastIndexOf("/")+1));
         String serie = this.url.substring(this.url.lastIndexOf("/")+1);
         int staffelnummer = 0;
         int folgennummer = 0;
+        ArrayList<String> staffelliste = new ArrayList<>();
+        ArrayList<String> folgenliste = new ArrayList<>();
         
         Elements links = doc.getElementsByAttribute("href");
         //https://anicloud.io/anime/stream/attack-on-titan
@@ -65,8 +68,9 @@ public class Anicloud extends Site
                            // Matcher matcher = pattern.matcher(contents.attr("href"));
                             //boolean matchfound = matcher.f;
                             
-                            //String test = this.url+contents.attr("href");
+                            //System.out.println( this.url+contents.attr("href"));
                             //System.out.println(this.url+contents.attr("href").substring(this.url.lastIndexOf("/")));
+                            System.out.println("gehe zu seite: " + this.url+contents.attr("href") );
                             String defi = this.url+contents.attr("href");
                             defi = defi.substring(defi.lastIndexOf("/"));
                             
@@ -75,15 +79,51 @@ public class Anicloud extends Site
                             {
                                 //this.url.substring(this.url.lastIndexOf("/")+1)
                                 //System.out.println(contents.attr("href"));
-                                System.out.println(this.url+contents.attr("href"));
-                                staffelnummer++;
+                                //System.out.println(this.url+contents.attr("href"));
+                                //while
+                                if(!staffelliste.contains(this.url+contents.attr("href"))) //wenn 
+                                {
+                                    staffelliste.add(this.url+contents.attr("href"));
+                                }
+                                
+                               
+
+                                
+                                //Document doc = Jsoup.connect(url).get();
+                                //staffelnummer++;
                             }
+                            
+                            for(String staffel: staffelliste )
+                            {
+                                try
+                                {
+                                    Document doc = Jsoup.connect(staffel).get();
+                                    Elements site = doc.getElementsByAttribute("href");
+                                    for(Element seite : site)
+                                    {
+                                        System.out.println(site.attr("href")); 
+                                    }
+
+                                }
+                                catch(Exception e)
+                                {
+
+                                }
+                                
+                            }
+                            /*else if(Pattern.matches("|/episode-\\d",defi))
+                            {
+                                System.out.println(this.url+contents.attr("href"));
+                                //folgennummer++;
+                            }*/
+                            
                         }
                     } 
                 }
             }
 
-
+            //System.out.println(staffelnummer);
+            //System.out.println(folgennummer);
     }
     @Override
     public String getDownloadLink(String url) {
