@@ -49,34 +49,29 @@ public class Anicloud extends Site
         ArrayList<String> staffelliste = new ArrayList<>();
         ArrayList<String> folgenliste = new ArrayList<>();
         
-        Elements links = doc.getElementsByAttribute("href");
+        Elements links = doc.getElementsByAttribute("href"); //alle Elemente vom Link holen
         //https://anicloud.io/anime/stream/attack-on-titan
-        for(Element contents : links)
+        for(Element contents : links) 
             {
                 
-                //System.out.println(contents.attr("href"));
+                
                 //Filter
-                char lastChar = contents.attr("href").charAt(contents.attr("href").length() - 1 );
-                if(Character.isDigit(lastChar))
+                char lastChar = contents.attr("href").charAt(contents.attr("href").length() - 1 ); 
+                if(Character.isDigit(lastChar)) //auf Links prüfen die zum Schluss eine Nummer haben
                 {
-                    //System.out.println(this.url+contents.attr("href"));
-                    //System.out.println(this.url);
-                    if(contents.attr("href").contains(serie))
+                    
+                    if(contents.attr("href").contains(serie))//Prüfen ob Link ursprüngliche Serie beeinhaltet
                     {
-                        if(contents.attr("href").contains("staffel"))
+                        if(contents.attr("href").contains("staffel"))//Prüfen ob Link "staffel" beeinhaltet.
                         {
-                           // Matcher matcher = pattern.matcher(contents.attr("href"));
-                            //boolean matchfound = matcher.f;
-                            
-                            //System.out.println( this.url+contents.attr("href"));
-                            //System.out.println(this.url+contents.attr("href").substring(this.url.lastIndexOf("/")));
-                            System.out.println("gehe zu seite: " + this.url+contents.attr("href") );
-                            String defi = this.url+contents.attr("href");
-                            defi = defi.substring(defi.lastIndexOf("/"));
+
+                            String defi = this.url+contents.attr("href"); 
+                            defi = defi.substring(defi.lastIndexOf("/")); //letzten Teil vom Link abschneiden
                             
                             //System.out.println(defi);
                             if(Pattern.matches("|/staffel-\\d+",defi))
                             {
+
                                 //this.url.substring(this.url.lastIndexOf("/")+1)
                                 //System.out.println(contents.attr("href"));
                                 //System.out.println(this.url+contents.attr("href"));
