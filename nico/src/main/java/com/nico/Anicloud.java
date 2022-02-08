@@ -39,18 +39,16 @@ public class Anicloud extends Site
     }
 
 
-    public ArrayList<String> handleLink(String url) 
+    public ArrayList<String> handleLink(String url) throws IOException 
     {
         
-        //System.out.println(this.url.substring(this.url.lastIndexOf("/")+1));
-        String serie = this.url.substring(this.url.lastIndexOf("/")+1);
-        //int staffelnummer = 0;
-        //int folgennummer = 0;
+        
+        String serie = url.substring(this.url.lastIndexOf("/")+1); //gibt seriennamen an
         ArrayList<String> staffelliste = new ArrayList<>();
+        doc = Jsoup.connect(url).get(); //lade Seite in doc Objekt
         
+        Elements links = doc.getElementsByAttribute("href"); //alle Elemente mit href attribut von doc holen
         
-        Elements links = doc.getElementsByAttribute("href"); //alle Elemente vom Link holen
-        //https://anicloud.io/anime/stream/attack-on-titan
         for(Element contents : links) 
             {
                 
@@ -65,7 +63,7 @@ public class Anicloud extends Site
                         if(contents.attr("href").contains("staffel"))//Prüfen ob Link "staffel" beeinhaltet.
                         {
 
-                            String defi = this.url+contents.attr("href"); 
+                            String defi = this.url+contents.attr("href");  
                             defi = defi.substring(defi.lastIndexOf("/")); //letzten Teil vom Link abschneidengit 
                             
                             
@@ -75,39 +73,17 @@ public class Anicloud extends Site
                              
                                 if(!staffelliste.contains(this.url+defi)) //wenn es noch nicht in der Liste ist
                                 {
-                                    //System.out.println(this.url+defi);
-                                    staffelliste.add(this.url+defi);
-                                   
+                                    staffelliste.add(this.url+defi);  
                                 }
                             }
                             
-                            /*for(String staffel: staffelliste )
-                            {
-                                try
-                                {
-                                    Document doc = Jsoup.connect(staffel).get();
-                                    Elements site = doc.getElementsByAttribute("href");
-                                    for(Element seite : site)
-                                    {
-                                        System.out.println(site.attr("href")); 
-                                    }
-
-                                }
-                                catch(Exception e)
-                                {
-
-                                }
-                                
-                            }
-                            /*else
-                            */
+                         
                             
                         }
                     } 
                 }
             }
         return staffelliste;
-        //return null;
     }
     public ArrayList<String> getDownloadList(ArrayList<String> staffelliste)
     {
@@ -121,7 +97,6 @@ public class Anicloud extends Site
             Elements links = site.getElementsByAttribute("href");
             for(Element content: links)
             {
-                //System.out.println("link: " + links.attr("href"));
                 String defi =  content.attr("href");
                 try
                 {
@@ -137,20 +112,12 @@ public class Anicloud extends Site
 
                 {
                     System.out.println("Gefunden: " + defi);
-                    if(!downloadliste.contains(staffelseite+defi)) //wenn es noch nicht in der Liste ist
+                    if(!downloadliste.contains(staffelseite+defi)) 
                     {
                         downloadliste.add(staffelseite+defi);  
                     }
-                    
-
-                   
-                }
-                
-                
+                } 
             }
-            
-           
-            
             }
             catch(Exception e)
             {
@@ -159,31 +126,39 @@ public class Anicloud extends Site
             
         }
        
-        return null;
+        return downloadliste;
     }
 
     @Override
     public String getDownloadLink(String url) {
-        
+        //https://anicloud.io/redirect/762007
         try
         {
             Document doc = Jsoup.connect(url).get();
             Elements content = doc.getElementsByClass("watchEpisode");
-            //Elements links = doc.select("a[href]");
 
             for(Element contents : content)
             {
-                System.out.println(contents.attr("href"));
+                //System.out.println(contents.attr("href"));
+                return contents.attr("href");
             }
             
             
         }
         catch(Exception e)
         {
-
+            System.out.println("Ein Fehler ist aufgetreten.");
         }
         return null;
 
+    }
+
+    public void downloadListe(ArrayList<String> liste)
+    {
+        for(String link : liste)
+        {
+            copypasta(getDownloadLink(link));
+        }
     }
 
     public void copypasta(String url)
@@ -193,7 +168,7 @@ public class Anicloud extends Site
         WebDriver driver = new ChromeDriver(options);
         
      
-        driver.get("https://anicloud.io/redirect/748955");
+        driver.get(url);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -203,6 +178,7 @@ public class Anicloud extends Site
        
         System.out.println(driver.getCurrentUrl());
         copyToClipboard(driver.getCurrentUrl());
+        driver.quit();
     }
 
     void copyToClipboard(String text) {

@@ -34,24 +34,23 @@ public class App
       */
 
         Anicloud ani = new Anicloud("https://anicloud.io/anime/stream/attack-on-titan");
-        
-        ArrayList<String> test = ani.getDownloadList(ani.handleLink("test"));
-        System.out.println("");
 
-        //String link = "https://anicloud.io/anime/stream/attack-on-titan/staffel-1/episode-1";
-        //link = link.substring(link.lastIndexOf("/"));
-        //System.out.println(link);
+        //System.out.println(ani.getDownloadLink("https://anicloud.io/anime/stream/attack-on-titan/staffel-1/episode-1"));
         
         
-        
-        //ani.getDownloadLink("https://anicloud.io/anime/stream/attack-on-titan/staffel-1/episode-1");
-        //ani.copypasta("https://anicloud.io/redirect/748955");
-        //System.out.println("Test");
-        
+        try 
+        {
+          ArrayList<String> test = ani.getDownloadList(ani.handleLink("https://anicloud.io/anime/stream/attack-on-titan"));
+          ani.downloadListe(test);
+          
+        } 
+        catch (Exception e) {
+          //TODO: handle exception
+        }
        
+        System.out.println("");
       
-
-        //driver.quit();
+      
             
         
     }
