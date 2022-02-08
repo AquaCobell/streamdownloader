@@ -39,15 +39,15 @@ public class Anicloud extends Site
     }
 
 
-    public void handleLink(String url) 
+    public ArrayList<String> handleLink(String url) 
     {
         
         //System.out.println(this.url.substring(this.url.lastIndexOf("/")+1));
         String serie = this.url.substring(this.url.lastIndexOf("/")+1);
-        int staffelnummer = 0;
-        int folgennummer = 0;
+        //int staffelnummer = 0;
+        //int folgennummer = 0;
         ArrayList<String> staffelliste = new ArrayList<>();
-        ArrayList<String> folgenliste = new ArrayList<>();
+        
         
         Elements links = doc.getElementsByAttribute("href"); //alle Elemente vom Link holen
         //https://anicloud.io/anime/stream/attack-on-titan
@@ -66,29 +66,22 @@ public class Anicloud extends Site
                         {
 
                             String defi = this.url+contents.attr("href"); 
-                            defi = defi.substring(defi.lastIndexOf("/")); //letzten Teil vom Link abschneiden
+                            defi = defi.substring(defi.lastIndexOf("/")); //letzten Teil vom Link abschneidengit 
                             
-                            //System.out.println(defi);
-                            if(Pattern.matches("|/staffel-\\d+",defi))
+                            
+                            if(Pattern.matches("|/staffel-[1-9][0-9]*",defi))
                             {
 
-                                //this.url.substring(this.url.lastIndexOf("/")+1)
-                                //System.out.println(contents.attr("href"));
-                                //System.out.println(this.url+contents.attr("href"));
-                                //while
-                                if(!staffelliste.contains(this.url+contents.attr("href"))) //wenn 
+                             
+                                if(!staffelliste.contains(this.url+defi)) //wenn es noch nicht in der Liste ist
                                 {
-                                    staffelliste.add(this.url+contents.attr("href"));
+                                    //System.out.println(this.url+defi);
+                                    staffelliste.add(this.url+defi);
+                                   
                                 }
-                                
-                               
-
-                                
-                                //Document doc = Jsoup.connect(url).get();
-                                //staffelnummer++;
                             }
                             
-                            for(String staffel: staffelliste )
+                            /*for(String staffel: staffelliste )
                             {
                                 try
                                 {
@@ -106,20 +99,69 @@ public class Anicloud extends Site
                                 }
                                 
                             }
-                            /*else if(Pattern.matches("|/episode-\\d",defi))
-                            {
-                                System.out.println(this.url+contents.attr("href"));
-                                //folgennummer++;
-                            }*/
+                            /*else
+                            */
                             
                         }
                     } 
                 }
             }
-
-            //System.out.println(staffelnummer);
-            //System.out.println(folgennummer);
+        return staffelliste;
+        //return null;
     }
+    public ArrayList<String> getDownloadList(ArrayList<String> staffelliste)
+    {
+        ArrayList<String> downloadliste = new ArrayList<>();
+        for(String staffelseite: staffelliste)
+        {
+            try
+            {
+                
+            Document site = Jsoup.connect(staffelseite).get();
+            Elements links = site.getElementsByAttribute("href");
+            for(Element content: links)
+            {
+                //System.out.println("link: " + links.attr("href"));
+                String defi =  content.attr("href");
+                try
+                {
+                    defi = defi.substring(defi.lastIndexOf("/"));    
+                }
+                catch(Exception e)
+                {
+                    System.out.print("Minifehler");
+                }
+                System.out.println(defi);
+                
+                if(Pattern.matches("|/episode-[1-9][0-9]*",defi)) 
+
+                {
+                    System.out.println("Gefunden: " + defi);
+                    if(!downloadliste.contains(staffelseite+defi)) //wenn es noch nicht in der Liste ist
+                    {
+                        downloadliste.add(staffelseite+defi);  
+                    }
+                    
+
+                   
+                }
+                
+                
+            }
+            
+           
+            
+            }
+            catch(Exception e)
+            {
+                System.out.println(e);
+            }
+            
+        }
+       
+        return null;
+    }
+
     @Override
     public String getDownloadLink(String url) {
         

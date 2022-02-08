@@ -1,6 +1,7 @@
 package com.nico;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +34,9 @@ public class App
       */
 
         Anicloud ani = new Anicloud("https://anicloud.io/anime/stream/attack-on-titan");
-        ani.handleLink("test");
+        
+        ArrayList<String> test = ani.getDownloadList(ani.handleLink("test"));
+        System.out.println("");
 
         //String link = "https://anicloud.io/anime/stream/attack-on-titan/staffel-1/episode-1";
         //link = link.substring(link.lastIndexOf("/"));
