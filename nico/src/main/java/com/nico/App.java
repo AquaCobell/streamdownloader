@@ -33,7 +33,7 @@ public class App
 
       */
 
-        Anicloud ani = new Anicloud("https://anicloud.io/anime/stream/attack-on-titan");
+        /*Anicloud ani = new Anicloud("https://anicloud.io/anime/stream/attack-on-titan");
 
         //System.out.println(ani.getDownloadLink("https://anicloud.io/anime/stream/attack-on-titan/staffel-1/episode-1"));
         
@@ -50,7 +50,19 @@ public class App
        
         System.out.println("");
       
+      */
+      ChromeOptions options = new ChromeOptions();
+      options.setExperimentalOption("detach", true);
+      WebDriver driver = new ChromeDriver(options);
       
+   
+      driver.get("google.at");
+      try {
+          Thread.sleep(5000);
+      } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
             
         
     }
