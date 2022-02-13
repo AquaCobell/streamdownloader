@@ -24,7 +24,9 @@ public class Anicloud extends Site
     Pattern pattern = Pattern.compile("|Staffel-\\d+", Pattern.CASE_INSENSITIVE);
     
 
-    
+    public Anicloud()
+    {  
+    }
     public Anicloud(String url)
     {
         this.url =  url;
@@ -34,16 +36,16 @@ public class Anicloud extends Site
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-       
     }
+
+    
 
 
     public ArrayList<String> handleLink(String url) throws IOException 
     {
         
         
-        String serie = url.substring(this.url.lastIndexOf("/")+1); //gibt seriennamen an
+        String serie = url.substring(url.lastIndexOf("/")+1); //gibt seriennamen an
         ArrayList<String> staffelliste = new ArrayList<>();
         doc = Jsoup.connect(url).get(); //lade Seite in doc Objekt
         
@@ -63,7 +65,7 @@ public class Anicloud extends Site
                         if(contents.attr("href").contains("staffel"))//Prüfen ob Link "staffel" beeinhaltet.
                         {
 
-                            String defi = this.url+contents.attr("href");  
+                            String defi = url+contents.attr("href");  
                             defi = defi.substring(defi.lastIndexOf("/")); //letzten Teil vom Link abschneidengit 
                             
                             
@@ -71,9 +73,9 @@ public class Anicloud extends Site
                             {
 
                              
-                                if(!staffelliste.contains(this.url+defi)) //wenn es noch nicht in der Liste ist
+                                if(!staffelliste.contains(url+defi)) //wenn es noch nicht in der Liste ist
                                 {
-                                    staffelliste.add(this.url+defi);  
+                                    staffelliste.add(url+defi);  
                                 }
                             }
                             
@@ -130,17 +132,18 @@ public class Anicloud extends Site
     }
 
     @Override
-    public String getDownloadLink(String url) {
-        //https://anicloud.io/redirect/762007
+    public String getDownloadLink(String url) 
+    {
+      
         try
         {
             Document doc = Jsoup.connect(url).get();
             Elements content = doc.getElementsByClass("watchEpisode");
-
+            String s = "https://anicloud.io";
             for(Element contents : content)
             {
-                //System.out.println(contents.attr("href"));
-                return contents.attr("href");
+                
+                return s+ contents.attr("href");
             }
             
             
@@ -169,9 +172,12 @@ public class Anicloud extends Site
         
      
         driver.get(url);
-        try {
+        //while(!driver.getCurrentUrl().contains("voe"))
+        try 
+        {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
+        } 
+        catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
