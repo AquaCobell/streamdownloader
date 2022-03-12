@@ -24,33 +24,12 @@ public class App
 {
     public static void main( String[] args )
     {
-        /*System.out.println( "Video-Scrapper" );
-        System.out.println("-----------------------------");
-        System.out.println("Link:");
-        Scanner scan = new Scanner(System.in);
-        String link = scan.nextLine();
-        System.out.println(link);
-
-      */
-
-        Anicloud ani = new Anicloud("https://anicloud.io/anime/stream/my-dress-up-darling");
-        
-        //System.out.println(ani.getDownloadLink("https://anicloud.io/anime/stream/my-dress-up-darling"));
-        
-        
-        try 
-        {
-          ArrayList<String> test = ani.getDownloadList(ani.handleLink("https://anicloud.io/anime/stream/my-dress-up-darling"));
-          ani.downloadListe(test);
-          
-        } 
-        catch (Exception e) {
-          //TODO: handle exception
-        }
-       
-        System.out.println("");
-      
-      
+      //TODO
+      //Link-Cleaner /Es funktionieren nur Links die direkt auf den Anime zeigen, verbessern
+      //GUI fertig machen
+      //Advanced Download mit "Episoden Objekten"
+      userinterface user = new userinterface();
+      user.showMainInterface();
       
     }
 }

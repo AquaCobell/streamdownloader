@@ -172,15 +172,18 @@ public class Anicloud extends Site
         
      
         driver.get(url);
-        //while(!driver.getCurrentUrl().contains("voe"))
-        try 
+        while(driver.getCurrentUrl().contains("anicloud"))
         {
-            Thread.sleep(5000);
-        } 
-        catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            try 
+            {
+                Thread.sleep(1000);
+            } 
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
+        
        
         System.out.println(driver.getCurrentUrl());
         copyToClipboard(driver.getCurrentUrl());

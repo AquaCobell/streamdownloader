@@ -1,5 +1,6 @@
 package com.nico;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.lang.model.util.ElementScanner14;
@@ -33,7 +34,7 @@ public class userinterface
             }
             if(auswahl == 1)
             {
-                enterlink();
+                quickdownload();1
             }
             else if(auswahl == 2)
             {
@@ -56,8 +57,26 @@ public class userinterface
         scan.nextLine();
         System.out.println("Copy Paste Link here:");
        
+
         return scan.nextLine();
         
+   }
+
+   public void quickdownload()
+   {
+        String season = enterlink();
+        Anicloud ani = new Anicloud(season);
+        
+        try 
+        {
+          ArrayList<String> episodes = ani.getDownloadList(ani.handleLink(season));
+          ani.downloadListe(episodes);
+          
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("ERROR: Leider ist ein Fehler aufgetreten.");
+        }
    }
 
    
