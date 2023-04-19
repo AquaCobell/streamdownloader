@@ -20,7 +20,7 @@ public class userinterface
         {
             System.out.println("╔═══════════════════Streamdownloader═════════════════════╗");
             System.out.println("║      1. Download Serie                                 ║");
-            System.out.println("║      2. Settings                                       ║");
+            System.out.println("║      2. Download Serie Advanced                        ║");
             System.out.println("║      3. Quit                                           ║");
             System.out.println("╚════════════════════════════════════════════════════════╝");
             try
@@ -34,11 +34,11 @@ public class userinterface
             }
             if(auswahl == 1)
             {
-                quickdownload();1
+                quickdownload();
             }
             else if(auswahl == 2)
             {
-                //showsettings
+                advancedDownload();
             }
             else
             {
@@ -62,6 +62,28 @@ public class userinterface
         
    }
 
+   public int enterStaffelvon()
+   {
+        System.out.print("\033[H\033[2J");
+       
+        System.out.println("von Staffel:");
+
+
+        return scan.nextInt();
+        
+   }
+
+   public int enterStaffelbis()
+   {
+        System.out.print("\033[H\033[2J");
+       
+        System.out.println("bis Staffel:");
+
+
+        return scan.nextInt();
+        
+   }
+
    public void quickdownload()
    {
         String season = enterlink();
@@ -75,9 +97,28 @@ public class userinterface
         } 
         catch (Exception e) 
         {
-            System.out.println("ERROR: Leider ist ein Fehler aufgetreten.");
+            System.out.println("ERROR: Leider ist ein Fehler aufgetreten." + e);
         }
    }
+
+   public void advancedDownload()
+   {
+        String season = enterlink();
+        Anicloud ani = new Anicloud(season);
+        int Staffelanfang = enterStaffelvon();
+        int Staffelende = enterStaffelbis();
+    
+        try 
+        {
+            ArrayList<String> episodes = ani.getDetailedDownloadList(ani.handleLink(season), Staffelanfang, Staffelende);
+            ani.downloadListe(episodes);
+        
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("ERROR: Leider ist ein Fehler aufgetreten." + e);
+        }
+    }
 
    
 }

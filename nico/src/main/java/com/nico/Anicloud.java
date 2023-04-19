@@ -1,8 +1,10 @@
 package com.nico;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
@@ -40,7 +42,9 @@ public class Anicloud extends Site
 
     
 
-
+    /*
+    * Extrahiert alle Staffeln aus einem Link und speichert sie in einer Liste
+    */
     public ArrayList<String> handleLink(String url) throws IOException 
     {
         
@@ -87,6 +91,10 @@ public class Anicloud extends Site
             }
         return staffelliste;
     }
+
+    /*
+    * Extrahiert alle Episoden aus einer Staffel und speichert sie in einer Liste
+    */
     public ArrayList<String> getDownloadList(ArrayList<String> staffelliste)
     {
         ArrayList<String> downloadliste = new ArrayList<>();
@@ -131,7 +139,64 @@ public class Anicloud extends Site
         return downloadliste;
     }
 
+
+    /*
+    * Extrahiert alle Episoden aus bestimmten Staffeln abhängig von Benutzereingabe
+    */
+    public ArrayList<String> getDetailedDownloadList(ArrayList<String> staffelliste, int vonStaffel, int bisStaffel)
+    {
+        ArrayList<String> downloadliste = new ArrayList<>();
+        int index = 0;
+        for(String staffelseite: staffelliste)
+        {
+
+            if(index>=(vonStaffel-1) && index<=(bisStaffel-1))
+            {
+                try
+                {
+                    
+                    Document site = Jsoup.connect(staffelseite).get();
+                    Elements links = site.getElementsByAttribute("href");
+                    for(Element content: links)
+                    {
+                        String defi =  content.attr("href");
+                        try
+                        {
+                            defi = defi.substring(defi.lastIndexOf("/"));    
+                        }
+                        catch(Exception e)
+                        {
+                            System.out.print("Minifehler");
+                        }
+                        System.out.println(defi);
+                        
+                        if(Pattern.matches("|/episode-[1-9][0-9]*",defi)) 
+
+                        {
+                            System.out.println("Gefunden: " + defi);
+                            if(!downloadliste.contains(staffelseite+defi)) 
+                            {
+                                downloadliste.add(staffelseite+defi);  
+                            }
+                        } 
+                    }
+                }
+                catch(Exception e)
+                {
+                    System.out.println(e);
+                }
+            }
+            
+            index++;
+        }
+       
+        return downloadliste;
+    }
+
     @Override
+    /*
+    * Bekommt aus einem Link einer Episode den Link zur Weiterleitung voe
+    */
     public String getDownloadLink(String url) 
     {
       
@@ -139,7 +204,7 @@ public class Anicloud extends Site
         {
             Document doc = Jsoup.connect(url).get();
             Elements content = doc.getElementsByClass("watchEpisode");
-            String s = "https://anicloud.io";
+            String s = "https:/aniworld.to";
             for(Element contents : content)
             {
                 
@@ -164,15 +229,32 @@ public class Anicloud extends Site
         }
     }
 
+    /*
+    * Öffnet DownloadLinks mit Browser und versucht dann den Link falls offen in Zwischenablage zu kopieren
+    */
     public void copypasta(String url)
     {
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\Nico\\Desktop\\Various Stuff\\Stream Web Scrapper\\chromedriver.exe");   
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("detach", true);
+       options.setExperimentalOption("detach", true);//options
+       //options.setExperimentalOption("excludeSwitches","enable-logging");
+       options.addArguments("--disable-blink-features=AutomationControlled");
+       options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"}); 
+       options.addArguments("disable-infobars");
+       //options.setExperimentalOption("useAutomationExtension", null);
+       options.addArguments("--remote-allow-origins=*");
+
+       options.setExperimentalOption("excludeSwitches",Collections.singletonList("enable-automation"));    
+
+       options.addArguments("window-size=1920,1080");
+       options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+       //1options.addExtensions (new File("C:/Users/Nico/Desktop/Stream Web Scrapper/solve.crx"));
         WebDriver driver = new ChromeDriver(options);
+        driver.manage().deleteAllCookies();
         
      
         driver.get(url);
-        while(driver.getCurrentUrl().contains("anicloud"))
+        while(driver.getCurrentUrl().contains("aniworld"))
         {
             try 
             {
@@ -194,6 +276,6 @@ public class Anicloud extends Site
         java.awt.Toolkit.getDefaultToolkit().getSystemClipboard()
             .setContents(new java.awt.datatransfer.StringSelection(text), null);
     }
-    
+  
     
 }
