@@ -18,10 +18,10 @@ public class Controller
         ArrayList<String> staffelliste = new ArrayList<>();
         ArrayList<String> episodenliste = new ArrayList<>();
 
-      staffelliste = vid.handleLink(Link);
-      episodenliste = vid.getDownloadList(staffelliste);
+        staffelliste = vid.handleLink(Link);
+        episodenliste = vid.getDownloadList(staffelliste);
         
-      episodendownloader(episodenliste);
+        episodendownloader(episodenliste);
       
     }
 

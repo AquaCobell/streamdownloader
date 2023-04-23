@@ -31,11 +31,12 @@ public class App
 {
     public static void main( String[] args ) throws Exception
     {
-        new picocli.CommandLine(new CLI()).execute(args);
+        //new picocli.CommandLine(new CLI()).execute(args);
       
+        Tray tray = new Tray();
+        tray.loadTray();
 
-
-
+        Thread.sleep(10000);
 
 
 
