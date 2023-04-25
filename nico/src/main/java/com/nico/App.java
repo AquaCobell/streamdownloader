@@ -1,28 +1,5 @@
 package com.nico;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.exec.CommandLine;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
-
 /**
  * Hello world!
  *
@@ -33,10 +10,18 @@ public class App
     {
         //new picocli.CommandLine(new CLI()).execute(args);
       
+        
+        //GUI gui = new GUI();
+        //gui.enterLink();
+
+        //gui.enterSeasonEpisode();
+        
+        
+        
         Tray tray = new Tray();
         tray.loadTray();
 
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
 
 
 

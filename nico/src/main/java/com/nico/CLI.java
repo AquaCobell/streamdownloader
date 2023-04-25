@@ -1,9 +1,5 @@
 package com.nico;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

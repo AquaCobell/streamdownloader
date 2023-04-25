@@ -2,29 +2,21 @@ package com.nico;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator.Id;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.*;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 
 
 public class Vidoza extends Site 

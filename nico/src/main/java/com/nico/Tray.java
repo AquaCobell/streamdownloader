@@ -8,12 +8,14 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
+
 public class Tray 
 {
     Controller c;
     Clipboardreader clip;
+    GUI gui = new GUI();
     Tray()
     {
         c = new Controller();
@@ -57,6 +59,26 @@ public class Tray
                     try {
                         c.downloadFullAnime(clip.getClipboard());
                     } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    
+                }
+                
+            });
+
+            downloaddetailedAnime.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    ArrayList<Integer> eingaben = gui.enterSeasonEpisode();
+                    try 
+                    {
+                        c.downloadab(clip.getClipboard(),eingaben.get(0) , eingaben.get(1));
+                    } 
+                    catch (Exception e1) 
+                    {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
