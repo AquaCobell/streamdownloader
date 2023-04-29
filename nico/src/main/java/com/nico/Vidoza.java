@@ -354,6 +354,7 @@ public class Vidoza extends Site
         System.out.println(driver.getCurrentUrl());
         copyToClipboard(driver.getCurrentUrl());
         driver.quit();
+        
     }
 
 
@@ -444,6 +445,7 @@ public class Vidoza extends Site
                     
                 }   
                 driver.navigate().refresh();
+                counter =0;
             } 
         }
         System.out.println(driver.getCurrentUrl());
