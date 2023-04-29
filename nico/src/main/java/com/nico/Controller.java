@@ -32,7 +32,7 @@ public class Controller
 
         staffelliste = vid.handleLink(link);
 
-        episodenliste = vid.filter(vid.getDownloadList(staffelliste), 2, 4);
+        episodenliste = vid.filter(vid.getDownloadList(staffelliste), staffel, episode);
         episodendownloader(episodenliste);
      
     }
@@ -45,7 +45,7 @@ public class Controller
         staffelliste = vid.handleLink(link);
   
         
-        episodenliste = vid.getDetailedDownloadList(staffelliste, 3, 3);
+        episodenliste = vid.getDetailedDownloadList(staffelliste, vonStaffel, bisStaffel);
         episodendownloader(episodenliste);
     }
 

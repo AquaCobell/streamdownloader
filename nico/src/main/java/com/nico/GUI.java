@@ -40,6 +40,7 @@ public class GUI
         myPanel.add(Box.createHorizontalStrut(15)); // a spacer
         myPanel.add(new JLabel("Episode:"));
         myPanel.add(episode);
+        
 
         int result = JOptionPane.showConfirmDialog(null, myPanel, 
                "Please enter Season and Episode", JOptionPane.OK_CANCEL_OPTION);
