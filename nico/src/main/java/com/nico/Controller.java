@@ -53,13 +53,14 @@ public class Controller
     {
         for (String string : episodenliste) 
       {
-            String name = string.substring(string.indexOf("stream") + 7 , string.indexOf("staffel")-1 );
+            //Generiere Name für die Episode
+            String name = string.substring(string.indexOf("stream") + 7 , string.indexOf("staffel")-1 ); //Bekomme name aus URL
             System.out.println("-----name:"+ name);
             int staffelint=0; 
             int episodeint=0;
 
-            Pattern p = Pattern.compile("\\d+");
-            Pattern a = Pattern.compile("[^\\d]*[\\d]+[^\\d]+([\\d]+)");
+            Pattern p = Pattern.compile("\\d+"); //staffel
+            Pattern a = Pattern.compile("[^\\d]*[\\d]+[^\\d]+([\\d]+)"); //episode
         
             Matcher m;
         
@@ -76,7 +77,7 @@ public class Controller
                 episodeint = Integer.parseInt(m.group(1));
             }
  
-        vid.downloadEpisode(vid.directlink(vid.getDownloadLink(string)),staffelint,episodeint,name);
+        vid.downloadEpisode(vid.directlink(vid.getDownloadLinkSelenium(string)),staffelint,episodeint,name);
 
       }
     }

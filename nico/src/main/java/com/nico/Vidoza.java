@@ -4,14 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.*;
@@ -267,7 +271,11 @@ public class Vidoza extends Site
             int counter = 0;
             for(Element contents : content)
             {
+
+                String string = (contents.parents().parents().attr("style"));
                 //System.out.println( s + contents.attr("href"));
+                //CHECK CONTENT IF(contents.attr("display:") =!none)
+                
 
                 liste.add(counter, s + contents.attr("href"));
                 counter = counter +1;
@@ -277,7 +285,7 @@ public class Vidoza extends Site
             }
                                         //0 is VOE
                                         //1 is dodd.y
-            return liste.get(2); //2 is VIDOZA
+            return liste.get(5); //2 is VIDOZA
             
             
         }
@@ -286,6 +294,48 @@ public class Vidoza extends Site
             System.out.println("Ein Fehler ist aufgetreten." + e);
         }
         return null;
+
+    }
+
+    public String getDownloadLinkSelenium(String url) 
+    {
+      
+
+        ChromeOptions options = new ChromeOptions();
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().deleteAllCookies();
+        driver.get(url);
+
+
+        List<WebElement> links = driver.findElements(By.className("watchEpisode"));
+        List<WebElement> linkssichtbar = new ArrayList<WebElement>();
+        
+        
+        
+        for (WebElement link : links) {
+
+            if(link.isDisplayed())
+            {
+                linkssichtbar.add(link);
+                
+            }
+            else
+            {
+                System.out.println("no");
+            }
+         
+        }
+        
+
+        //String s = "https:/aniworld.to";
+        ArrayList<String> liste = new ArrayList<>();
+        for (WebElement linksichtbar : linkssichtbar) 
+        {
+            liste.add(linksichtbar.getAttribute("href"));
+
+        }
+        driver.quit();
+        return liste.get(2);
 
     }
 
@@ -322,6 +372,7 @@ public class Vidoza extends Site
        options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
        options.addExtensions (new File("C:/Users/Nico/Desktop/Stream Web Scrapper/solve.crx"));
         WebDriver driver = new ChromeDriver(options);
+        //WebDriver driver = WebDriverManager.chromedriver().create();
         driver.manage().deleteAllCookies();
         
      
