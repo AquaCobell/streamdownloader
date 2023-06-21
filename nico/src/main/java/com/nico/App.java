@@ -16,10 +16,29 @@ public class App
 
         //gui.enterSeasonEpisode();
         
+        Vidoza vid = new Vidoza();
         
+        //Tray tray = new Tray();
+        //tray.loadTray();
+
+        Serie test = new Serie("https://aniworld.to/anime/stream/black-clover", 1, 1);
+        test.setEpisode(5);
+        test.setStaffel(2);
+
+        //test.checkfornewEpisode(vid);
+        test.getTotalEpisodes(5, 2, vid);
+
         
-        Tray tray = new Tray();
-        tray.loadTray();
+
+
+
+
+
+
+
+
+
+
 
         //Thread.sleep(10000);
 
