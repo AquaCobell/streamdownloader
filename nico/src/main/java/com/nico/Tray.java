@@ -39,6 +39,7 @@ public class Tray
             MenuItem downloadFullAnime= new MenuItem("Download Full Anime");
             MenuItem downloaddetailedAnime= new MenuItem("Download from Season & Episode");
             MenuItem downloadSeasonAnime= new MenuItem("Download from Season to Season");
+            MenuItem addSerie = new MenuItem("Neue Serie hinzufügen");
             MenuItem exit = new MenuItem("Exit");
 
             exit.addActionListener(new ActionListener() {
@@ -59,6 +60,27 @@ public class Tray
                     try {
                         c.downloadFullAnime(clip.getClipboard());
                     } catch (Exception e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    
+                }
+                
+            });
+
+            addSerie.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    ArrayList<Integer> eingaben = gui.enterSeasonEpisode();
+                    try 
+                    {
+                        Serie serie = new Serie(clip.getClipboard(),eingaben.get(1), eingaben.get(0));
+                        c.newSeries(serie);
+                    } 
+                    catch (Exception e1) 
+                    {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
@@ -91,6 +113,7 @@ public class Tray
             popup.add(downloadFullAnime);
             popup.add(downloaddetailedAnime);
             popup.add(downloadSeasonAnime);
+            popup.add(addSerie);
             popup.add(exit);
 
 
@@ -101,45 +124,21 @@ public class Tray
 
             tray.add(trayIcon);
     
-           /*  move.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                  
-                    
-                }
-                
-            });
-            MenuItem close = new MenuItem("Beenden");
-            close.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    System.exit(0);
-                }
-            });
-
-            popup.add(move);
-            popup.add(close);
-            trayIcon = new TrayIcon(image, "Nummer", popup);
-          
-            try
-            {
-                tray.add(trayIcon);
-                
-            } catch(Exception e)
-            {
-                System.out.println(e);
-            }
-            */
             //https://stackoverflow.com/questions/758083/how-do-i-put-a-java-app-in-the-system-tray
-          
+            
+            try {
+                c.RefreshEpisodes();
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
     
 
         } 
         else
         {
-            System.out.println("erro");
+            System.out.println("error");
         }
         
     }

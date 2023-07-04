@@ -1,25 +1,36 @@
 package com.nico;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Serie 
+public class Serie implements Serializable
 {
     
-    Serie(String link, int Episode, int Staffel)
+    Serie(String link, int Episode, int Staffel) throws IOException
     {
+        //vid = new Vidoza();
         this.link = link;
         this.Episode = Episode;
         this.Staffel = Staffel;
+       
+
+        staffelliste = new ArrayList<>();
+        episodenliste = new ArrayList<>();
         
     }
 
+    //Vidoza vid;
     String link;
     int Episode;
     int Staffel;
     int totalEpisodes;
+
+    ArrayList<String> staffelliste;
+    ArrayList<String> episodenliste;
+    
 
     public int getEpisode() {
         return Episode;
@@ -45,13 +56,36 @@ public class Serie
         Staffel = staffel;
     }
 
-    public void getTotalEpisodes(int episode, int staffel, Vidoza vid) throws IOException
+    public int getTotalEpisodesVariable()
+    {
+        return this.totalEpisodes;
+    }
+
+    public ArrayList<String> getStaffelliste() {
+        return staffelliste;
+    }
+
+    public ArrayList<String> getEpisodenliste() {
+        return episodenliste;
+    }
+
+    public void setTotalEpisodes(int totalEpisodes) {
+        this.totalEpisodes = totalEpisodes;
+    }
+
+
+    /*  Updates Episoden and Staffelliste und gibt die insgesamte Anzahl an Episoden an die noch übrig sind.
+     * 
+     * 
+     */
+    /*public int getTotalEpisodes(int episode, int staffel) throws IOException
     {
         //String s = "https://aniworld.to/anime/stream/beyblade-burst-surge/staffel-1/episode-14";
 
         //"https://aniworld.to/anime/stream/black-clover/staffel-1/episode-1"
-        ArrayList<String> staffelliste = new ArrayList<>();
-        ArrayList<String> episodenliste = new ArrayList<>();
+        //ArrayList<String> staffelliste = new ArrayList<>();
+        //ArrayList<String> episodenliste = new ArrayList<>();
+        
         staffelliste = vid.handleLink(this.link);
         episodenliste = vid.getDownloadList(staffelliste);
         Pattern p = Pattern.compile(".+\\/staffel-(\\d+)\\/episode-(\\d+)", Pattern.CASE_INSENSITIVE);
@@ -70,86 +104,22 @@ public class Serie
             {
                 System.out.println("gefunden");
                 System.out.println("ANZAHL EPISODEN: " + (counter+1));
-                return;
+                return(counter+1);
             }
             counter++;
      
         }
-
-
-
-        
-         
-        
-     
-
-       
-       
-        
-        //System.out.println("Gruppe 1: " + m.group(0));
-        //System.out.println("Gruppe 2: " +m.group(1));
-        //System.out.println("Gruppe 3: " +m.group(2));
-        //System.out.println("tst");
-
-        
-
-        
-
-
-
-        
-            
-
-        //while(true)
-        //{
-        //    m= p.matcher(String.valueOf(episode));
-           
-        //}
-        
-        
-        /*for (String episode : episodenliste) 
-        {
-
-        }*/
-        
-        
-        
-        
-        //int counterseason = 0;
-        //int counterepisode = 0 ;
-
-       
-        /*while(counterseason < season )
-        {
-
-            while(counterepisode < episode)
-        }*/
-
+        return 0;
     }
+    */
 
-
-    public String checkfornewEpisode(Vidoza vid)
+   /*  public void updateEpisodeandSeasonList() throws IOException
     {
-        
-        ArrayList<String> staffelliste = new ArrayList<>();
-        ArrayList<String> episodenliste = new ArrayList<>();
-
-
-        
-        {
-
-        }
-        try
-        {
-            staffelliste = vid.handleLink(this.link);
-            episodenliste = vid.getDownloadList(staffelliste);
-            System.out.println("debug");
-        }
-        catch(Exception e)
-        {
-
-
-        }   
-        return "";
+        staffelliste = vid.handleLink(this.link);
+        episodenliste = vid.getDownloadList(staffelliste);  
     }
+    */
+
+
+    
 }

@@ -8,9 +8,11 @@ import java.util.regex.Pattern;
 public class Controller 
 {
     Vidoza vid;
+    Savecontroller savecontroller;
     Controller()
     {
         vid = new Vidoza();
+        savecontroller = new Savecontroller();
     }
 
     public void downloadFullAnime(String Link) throws Exception
@@ -81,4 +83,28 @@ public class Controller
 
       }
     }
+
+    public void RefreshEpisodes() throws Exception
+    {
+        //loadSeries()
+        savecontroller.loadList();
+        //savecontroller.load()
+        //for each()
+        //....
+        //episodendownloader(null);
+    }
+
+    public void newSeries(Serie serie)
+    {
+        try {
+            savecontroller.addSerie(serie);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 }
