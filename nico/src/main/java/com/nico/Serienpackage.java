@@ -14,22 +14,14 @@ class Serienpackage implements Serializable
         serien=new ArrayList<>();
     }
 
-
     public void addSerie(Serie serie)
     {
         serien.add(serie);
-         
-       
     }
 
     //removeserie
-
     public ArrayList<Serie> getSerien() 
     {
         return serien;
     }
-
-
-
-
 }

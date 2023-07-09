@@ -88,6 +88,13 @@ public class Controller
     {
         //loadSeries()
         savecontroller.loadList();
+        savecontroller.getSerien().getSerien();
+        
+       
+        for(Serie serie: savecontroller.getSerien().getSerien())
+        {
+            episodendownloader(savecontroller.checkanddownload(serie));
+        }
         //savecontroller.load()
         //for each()
         //....

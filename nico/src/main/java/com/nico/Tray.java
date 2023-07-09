@@ -40,6 +40,7 @@ public class Tray
             MenuItem downloaddetailedAnime= new MenuItem("Download from Season & Episode");
             MenuItem downloadSeasonAnime= new MenuItem("Download from Season to Season");
             MenuItem addSerie = new MenuItem("Neue Serie hinzufügen");
+            MenuItem refreshEpisode = new MenuItem("Episoden refreshen");
             MenuItem exit = new MenuItem("Exit");
 
             exit.addActionListener(new ActionListener() {
@@ -109,11 +110,31 @@ public class Tray
                 
             });
 
+           refreshEpisode.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                   
+                    try 
+                    {
+                        c.RefreshEpisodes();
+                    } 
+                    catch (Exception e1) 
+                    {
+                        System.out.println("Es ist ein Fehler aufgetreten" +e1);
+                    }
+                    
+                }
+                
+            });
+
 
             popup.add(downloadFullAnime);
             popup.add(downloaddetailedAnime);
             popup.add(downloadSeasonAnime);
             popup.add(addSerie);
+            popup.add(refreshEpisode);
             popup.add(exit);
 
 
@@ -126,12 +147,7 @@ public class Tray
     
             //https://stackoverflow.com/questions/758083/how-do-i-put-a-java-app-in-the-system-tray
             
-            try {
-                c.RefreshEpisodes();
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+           
 
     
 

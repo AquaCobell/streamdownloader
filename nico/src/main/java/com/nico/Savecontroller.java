@@ -21,6 +21,10 @@ class Savecontroller
         serien = new Serienpackage();
         vid = new Vidoza();
     }
+
+    public Serienpackage getSerien() {
+        return serien;
+    }
         
     
     public int checkfornewEpisode(Serie serie) throws IOException
@@ -29,7 +33,7 @@ class Savecontroller
         int totalepisodes = serie.getTotalEpisodesVariable();
 
 
-        serie.updateEpisodeandSeasonList();
+        updateEpisodeandSeasonList(serie);
         //ArrayList<String> staffelliste = new ArrayList<>();
         //ArrayList<String> episodenliste = new ArrayList<>();
         //staffelliste = this.vid.handleLink(link);
@@ -47,13 +51,15 @@ class Savecontroller
         return 0 ;
     }
 
+
     public ArrayList<String> checkanddownload(Serie serie) throws IOException
     {
         int anzahlmissingepisoden= checkfornewEpisode(serie);
         if(anzahlmissingepisoden!=0)
         {
 
-            serie.updateEpisodeandSeasonList();
+          
+            updateEpisodeandSeasonList(serie);
             ArrayList<String> downloadlist = new ArrayList<>();
             ArrayList<String> returndownloadlist = new ArrayList<>();
             downloadlist = serie.getEpisodenliste();
@@ -62,17 +68,13 @@ class Savecontroller
             {
                 System.out.println("Downloade Episode: " + downloadlist.get(i));
                 returndownloadlist.add(downloadlist.get(i));
+                serie.setTotalEpisodes(serie.getTotalEpisodesVariable() +1);
                 
             
 
                 
             }
-            return returndownloadlist;
-
-
-           
-
-            
+            return returndownloadlist; 
         }
         return null;
     }
@@ -85,6 +87,10 @@ class Savecontroller
     }
 
 
+    
+    /**
+     *  Speichere Serie in Datei.
+     */
     public void safelist() 
     {
         // private static final String filepath="C:\\Users\\nikos7\\Desktop\\obj";
@@ -105,6 +111,9 @@ class Savecontroller
         
     }
 
+    /**
+     *  Lade Serie von Datei und speichere sie in Savecontroller
+     */
     public void loadList()
     {
             
@@ -127,6 +136,10 @@ class Savecontroller
         }
     }
 
+    /**
+     * Schreibt die insgesamte Anzahl an gesehenen Serien in die totalEpisodes Variable von 
+     * @param serie Serie
+     */
     public Serie addTotalEpisodestoSeries(Serie serie) throws IOException
     {
         ArrayList<String> staffelliste = vid.handleLink(serie.getLink());
@@ -157,10 +170,13 @@ class Savecontroller
         return serie;
     }
 
-    /*public void updateEpisodeandSeasonList() throws IOException
+    
+    public void updateEpisodeandSeasonList(Serie serie) throws IOException
     {
-        staffelliste = vid.handleLink(this.link);
-        episodenliste = vid.getDownloadList(staffelliste);  
-    } */
+        serie.staffelliste = vid.handleLink(serie.getLink());
+        serie.episodenliste = vid.getDownloadList(serie.staffelliste);  
+
+        
+    } 
     
 }
